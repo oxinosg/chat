@@ -1,0 +1,45 @@
+{
+  "npmScope": "chat",
+  "implicitDependencies": {
+    "workspace.json": "*",
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    "tsconfig.json": "*",
+    "tslint.json": "*",
+    "nx.json": "*"
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/workspace/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
+      }
+    }
+  },
+  "projects": {
+    "service-chat": {
+      "tags": []
+    },
+    "service-chat-history": {
+      "tags": []
+    },
+    "api-chat": {
+      "tags": []
+    },
+    "client-chat": {
+      "tags": []
+    },
+    "client-chat-e2e": {
+      "tags": [],
+      "implicitDependencies": ["client-chat"]
+    },
+    "proto": {
+      "tags": []
+    },
+    "contracts": {
+      "tags": []
+    }
+  }
+}

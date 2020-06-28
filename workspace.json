@@ -1,0 +1,426 @@
+{
+  "version": 1,
+  "projects": {
+    "service-chat": {
+      "root": "apps/service-chat",
+      "sourceRoot": "apps/service-chat/src",
+      "projectType": "application",
+      "prefix": "service-chat",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/service-chat",
+            "main": "apps/service-chat/src/main.ts",
+            "tsConfig": "apps/service-chat/tsconfig.app.json",
+            "assets": ["apps/service-chat/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/service-chat/src/environments/environment.ts",
+                  "with": "apps/service-chat/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "service-chat:build"
+          }
+        },
+        "serve:prod": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "pm2 stop service-chat; pm2 start dist/apps/service-chat/main.js --watch --name service-chat"
+              }
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "config": "apps/service-chat/.eslintrc",
+            "tsConfig": [
+              "apps/service-chat/tsconfig.app.json",
+              "apps/service-chat/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/service-chat/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/service-chat/jest.config.js",
+            "tsConfig": "apps/service-chat/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "service-chat-history": {
+      "root": "apps/service-chat-history",
+      "sourceRoot": "apps/service-chat-history/src",
+      "projectType": "application",
+      "prefix": "service-chat-history",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/service-chat-history",
+            "main": "apps/service-chat-history/src/main.ts",
+            "tsConfig": "apps/service-chat-history/tsconfig.app.json",
+            "assets": ["apps/service-chat-history/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/service-chat-history/src/environments/environment.ts",
+                  "with": "apps/service-chat-history/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "service-chat-history:build"
+          }
+        },
+        "serve:prod": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "pm2 stop service-chat-history; pm2 start dist/apps/service-chat-history/main.js --watch --name service-chat-history"
+              }
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "config": "apps/service-chat-history/.eslintrc",
+            "tsConfig": [
+              "apps/service-chat-history/tsconfig.app.json",
+              "apps/service-chat-history/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/service-chat-history/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/service-chat-history/jest.config.js",
+            "tsConfig": "apps/service-chat-history/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "api-chat": {
+      "root": "apps/api-chat",
+      "sourceRoot": "apps/api-chat/src",
+      "projectType": "application",
+      "prefix": "api-chat",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/api-chat",
+            "main": "apps/api-chat/src/main.ts",
+            "tsConfig": "apps/api-chat/tsconfig.app.json",
+            "assets": ["apps/api-chat/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/api-chat/src/environments/environment.ts",
+                  "with": "apps/api-chat/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "api-chat:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "config": "apps/api-chat/.eslintrc",
+            "tsConfig": [
+              "apps/api-chat/tsconfig.app.json",
+              "apps/api-chat/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/api-chat/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/api-chat/jest.config.js",
+            "tsConfig": "apps/api-chat/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "client-chat": {
+      "root": "apps/client-chat",
+      "sourceRoot": "apps/client-chat/src",
+      "projectType": "application",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/web:build",
+          "options": {
+            "outputPath": "dist/apps/client-chat",
+            "index": "apps/client-chat/src/index.html",
+            "main": "apps/client-chat/src/main.tsx",
+            "polyfills": "apps/client-chat/src/polyfills.ts",
+            "tsConfig": "apps/client-chat/tsconfig.app.json",
+            "assets": [
+              "apps/client-chat/src/favicon.ico",
+              "apps/client-chat/src/assets"
+            ],
+            "styles": [],
+            "scripts": [],
+            "webpackConfig": "@nrwl/react/plugins/webpack"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/client-chat/src/environments/environment.ts",
+                  "with": "apps/client-chat/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/web:dev-server",
+          "options": {
+            "buildTarget": "client-chat:build"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "client-chat:build:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "config": "apps/client-chat/.eslintrc",
+            "tsConfig": [
+              "apps/client-chat/tsconfig.app.json",
+              "apps/client-chat/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/client-chat/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/client-chat/jest.config.js",
+            "tsConfig": "apps/client-chat/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "client-chat-e2e": {
+      "root": "apps/client-chat-e2e",
+      "sourceRoot": "apps/client-chat-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/client-chat-e2e/cypress.json",
+            "tsConfig": "apps/client-chat-e2e/tsconfig.e2e.json",
+            "devServerTarget": "client-chat:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "client-chat:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "config": "apps/client-chat-e2e/.eslintrc",
+            "tsConfig": ["apps/client-chat-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/client-chat-e2e/**"]
+          }
+        }
+      }
+    },
+    "proto": {
+      "root": "libs/proto",
+      "sourceRoot": "libs/proto/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/proto/tsconfig.lib.json",
+              "libs/proto/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/proto/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/proto/jest.config.js",
+            "tsConfig": "libs/proto/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "contracts": {
+      "root": "libs/contracts",
+      "sourceRoot": "libs/contracts/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/contracts/tsconfig.lib.json",
+              "libs/contracts/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/contracts/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/contracts/jest.config.js",
+            "tsConfig": "libs/contracts/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/nest"
+  },
+  "schematics": {
+    "@nrwl/workspace": {
+      "library": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/cypress": {
+      "cypress-project": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/react": {
+      "application": {
+        "style": "none",
+        "linter": "eslint",
+        "babel": true
+      },
+      "library": {
+        "style": "none",
+        "linter": "eslint"
+      },
+      "storybook-configuration": {
+        "linter": "eslint"
+      },
+      "component": {
+        "style": "none"
+      }
+    },
+    "@nrwl/next": {
+      "application": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/web": {
+      "application": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/node": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/nx-plugin": {
+      "plugin": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/nest": {
+      "application": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/express": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      }
+    }
+  },
+  "defaultProject": "service-chat"
+}

@@ -1,0 +1,106 @@
+syntax = "proto3";
+
+package chat;
+
+service ChatService {
+  rpc GetUserAndRoomMeta (GetUserRequest) returns (GetUserResponse);
+  rpc GetRoom (GetRoomRequest) returns (GetRoomResponse);
+  rpc CreateMessage (CreateMessageRequest) returns (CreateMessageResponse);
+  rpc CreateRoom (CreateRoomRequest) returns (CreateRoomResponse);
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+  rpc UserDisconnect(UserDisconnectRequest) returns (UserDisconnectResponse);
+  rpc GetUsersConnections(GetUsersConnectionsRequest) returns (GetUsersConnectionsResponse);
+}
+
+message CreateMessageRequest {
+  string userId = 1;
+  string roomId = 2;
+  string content = 3;
+}
+
+message Message {
+  string id = 1;
+  string content = 2;
+  string file = 3;
+  string sender = 4;
+  string time = 5;
+}
+
+message CreateMessageResponse {
+  string id = 1;
+  string content = 2;
+  string file = 3;
+  string sender = 4;
+  string time = 5;
+}
+
+message CreateUserRequest {
+  string userId = 1;
+  string socketId = 2;
+}
+
+message CreateUserResponse {
+  string id = 1;
+  string socketId = 2;
+}
+
+message CreateRoomRequest {
+  repeated string members = 1;
+}
+
+message CreateRoomResponse {
+  string id = 1;
+  repeated string members = 2;
+  repeated Message messages = 3;
+  repeated string blocked = 4;
+  repeated string typing = 5;
+}
+
+message GetRoomRequest {
+  string roomId = 1;
+}
+
+message GetRoomResponse {
+  string id = 1;
+  repeated string members = 2;
+  repeated Message messages = 3;
+  repeated string blocked = 4;
+  repeated string typing = 5;
+}
+
+message GetUserRequest {
+  string userId = 1;
+}
+
+message User {
+  string id = 1;
+  repeated string rooms = 2;
+  repeated string blocked = 3;
+  string status = 4;
+}
+
+message Room {
+  string id = 1;
+  repeated string members = 2;
+}
+
+message GetUserResponse {
+  User user = 1;
+  repeated Room rooms = 2;
+}
+
+message UserDisconnectRequest {
+  string userId = 1;
+}
+
+message UserDisconnectResponse {
+  string userId = 1;
+}
+
+message GetUsersConnectionsRequest {
+  repeated string userIds = 1;
+}
+
+message GetUsersConnectionsResponse {
+  repeated CreateUserResponse users = 1;
+}
