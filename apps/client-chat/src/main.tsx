@@ -10,6 +10,7 @@ import { Switch } from 'react-router-dom'
 import { rootReducer } from './app/store/reducers'
 
 import App from './app/app'
+import theme from './app/theme'
 
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -20,8 +21,6 @@ const store = createStore(
 )
 /* eslint-enable */
 export type AppDispatch = typeof store.dispatch
-
-const theme = createMuiTheme()
 
 ReactDOM.render(
   <BrowserRouter>

@@ -21,6 +21,7 @@ const useStyles = makeStyles(({ breakpoints, spacing }) => ({
   },
   content: {
     paddingTop: spacing(4),
+    paddingBottom: spacing(4),
   },
   title: {
     marginBottom: spacing(3),
@@ -157,15 +158,15 @@ const useStyles = makeStyles(({ breakpoints, spacing }) => ({
     '& .rce-avatar-container.flexible .rce-avatar': {
       height: '100%!important',
     },
-'& .rce-mbox-text p': {
-  marginTop: 2,
-  marginBottom: 2
-},
-'& .rce-mbox-text ul': {
-  paddingLeft: 20,
-  marginTop: 2,
-  marginBottom: 4
-}
+    '& .rce-mbox-text p': {
+      marginTop: 2,
+      marginBottom: 2,
+    },
+    '& .rce-mbox-text ul': {
+      paddingLeft: 20,
+      marginTop: 2,
+      marginBottom: 4,
+    },
   },
   unreadItem: {
     '& .rce-citem': {

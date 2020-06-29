@@ -36,7 +36,7 @@
             "buildTarget": "service-chat:build"
           }
         },
-        "serve:prod": {
+        "serve-prod": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
             "commands": [
@@ -103,7 +103,7 @@
             "buildTarget": "service-chat-history:build"
           }
         },
-        "serve:prod": {
+        "serve-prod": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
             "commands": [
@@ -168,6 +168,16 @@
           "builder": "@nrwl/node:execute",
           "options": {
             "buildTarget": "api-chat:build"
+          }
+        },
+        "serve-prod": {
+          "builder": "@nrwl/workspace:run-commands",
+            "options": {
+              "commands": [
+                {
+                  "command": "pm2 stop api-chat; pm2 start dist/apps/api-chat/main.js --watch --name api-chat"
+                }
+            ]
           }
         },
         "lint": {
@@ -286,7 +296,7 @@
           },
           "configurations": {
             "production": {
-              "devServerTarget": "client-chat:serve:production"
+              "devServerTarget": "client-chat:serve-production"
             }
           }
         },

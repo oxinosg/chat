@@ -11,4 +11,9 @@
 ** TODO [create-message.handler.ts] turn class to object and add id, also remove id from model [[file:/home/ggz/Dev/chat/apps/service-chat/src/app/application/commands/handlers/create-message.handler.ts::// TODO turn class to object and add id, also remove id from model][src]] [2020-06-25 Do]
 ** TODO [chat.repository.ts] test performance diff between multi and sort for getting all messages [[file:/home/ggz/Dev/chat/apps/service-chat/src/app/infrastucture/repository/chat.repository.ts::// TODO test performance diff between multi and sort for getting all messages][src]] [2020-06-26 Fr]
 * TODO Chat Service History
+* TODO General Improvements
+** TODO create nx plugin to run all dependant apps in production build in pm2 and only app in development in dev mode
+** TODO readme.md
+*** TODO add instructions
+*** TODO add TODO section
 * ------ unsorted -------

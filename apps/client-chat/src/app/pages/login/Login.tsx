@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { ChangeEventHandler } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
+
+import { TextInputField, LoadingButton } from '../../components/common'
+import { useStyles } from './styles'
 
 type IProps = {
   userName: string
@@ -13,23 +14,53 @@ type IProps = {
 
 const Login = ({ userName, setUserName }: IProps) => {
   const history = useHistory()
+  const classes = useStyles()
 
   function handleClick() {
-    if (userName) {
+    if (userName && userName !== '') {
       history.push('/chat')
     }
   }
 
   return (
-    <Container maxWidth='sm'>
-      <Typography component='p'>Login</Typography>
-      <TextField
-        label='Username'
-        onChange={(e) => setUserName(e.target.value)}
-      />
-      <Button variant='contained' onClick={handleClick}>
-        Submit
-      </Button>
+    <Container style={{ background: '#fff' }} maxWidth='sm'>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          marginTop: 100,
+        }}>
+        <Typography className={classes.title} variant='h2'>
+          Login
+        </Typography>
+        <Typography className={classes.subTitle} variant='h4'>
+          Just type the username you want 😆
+        </Typography>
+        <div className={classes.formContainer}>
+          <TextInputField
+            className={classes.formField}
+            label='User name:'
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+            type='text'
+          />
+        </div>
+        <div
+          style={{
+            width: '100%',
+            textAlign: 'center',
+            marginTop: 20,
+          }}>
+          <LoadingButton
+            success
+            text='Submit'
+            clickHandler={handleClick}
+            style={{
+              width: 200,
+            }}
+          />
+        </div>
+      </div>
     </Container>
   )
 }

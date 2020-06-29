@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 
 import Chat from './pages/chat'
 import Login from './pages/login'
@@ -15,10 +15,8 @@ export const App = () => {
   }, [])
 
   function handleSetUserName(value: string) {
-    if (value !== '') {
-      sessionStorage.setItem('user_name', value)
-      setUserName(value)
-    }
+    sessionStorage.setItem('user_name', value)
+    setUserName(value)
   }
 
   return (

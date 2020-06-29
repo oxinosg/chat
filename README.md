@@ -4,15 +4,28 @@
 
 Proof of concept of a scalable microservice architecture using DDD / CQRS / Repository pattern
 
-Nestjs, Typescript, Redis, Nodejs, gRPC, Socket.io, Nx, Pm2, RabbitMQ, DDD, CQRS pattern, Repository pattern
+Tech Stack: Nestjs, Typescript, Redis, gRPC, Socket.io, Nx, Pm2, RabbitMQ, MongoDB
+
+## Intallation
+```bash
+yarn install
+yarn global pm2 @nrwl/cli
+
+docker run -d -p 6379:6379 redis
+
+yarn start:build-all
+yarn start:prod-all
+```
+
+### Usage
+
+After creating user, create chat room by using the username of the receiver as a route param. i.e. `/chat/user1`
 
 ## Architecture
-Client <-> socket.io <-> Gateway <-> gRPC <-> Chat Service <-> RabbitMQ <-> Chat History Service
-
-Client: For this project, client is using socket.io to communicate to the Api
-Gateway: Using gRPC to connect to the Chat Service
-Chat Service: Using Redis as in-memory for storage only and connects through rabbitmq to Chat History Service for permanent storage
-Chat History Service: Permanent storage using mongodb (or elasticsearch at some point)
+ * Client: using socket.io to communicate with the gateway
+ * Gateway: using gRPC to connect to the Chat Service
+ * Chat Service: using Redis as in-memory for storage only and connects through rabbitmq to Chat History Service for permanent storage
+ * Chat History Service: permanent storage using mongodb (or elasticsearch at some point)
 
 ### Chat Service 
  - application

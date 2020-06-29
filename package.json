@@ -5,9 +5,11 @@
   "scripts": {
     "nx": "nx",
     "start": "nx serve",
-    "start:with-prod-dependancies": "nx affected --exclude=users --target=build && nx serve users",
-    "start:with-dev-dependancies": "nx affected --parallel",
+    "start:prod-deps": "nx run-many --target=serve-prod --projects=client-chat --with-deps",
+    "start:prod-deps:client": "nx run service-chat:serve-prod && nx run api-chat:serve-prod && nx serve client-chat",
+    "start-all:prod": "nx run service-chat:serve-prod && nx run api-chat:serve-prod && nx serve client-chat --prod",
     "build": "nx build",
+    "build-all:prod": "nx run-many --target=build --all --prod",
     "test": "nx test",
     "lint": "nx workspace-lint && nx lint",
     "e2e": "nx e2e",
