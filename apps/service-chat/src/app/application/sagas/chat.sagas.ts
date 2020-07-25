@@ -3,7 +3,7 @@ import { ICommand, ofType, Saga } from '@nestjs/cqrs'
 import { Observable } from 'rxjs'
 import { delay, map } from 'rxjs/operators'
 
-import { UserCreatedEvent } from '../events/impl'
+import { UserCreatedEvent } from '../events'
 // import { WelcomeUserCommand } from '../commands/impl/welcome-user.command'
 
 @Injectable()

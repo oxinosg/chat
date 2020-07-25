@@ -19,6 +19,7 @@ yarn start:prod-all
 
 ### Usage
 
+Visit address and create user `http://localhost:4200/`
 After creating user, create chat room by using the username of the receiver as a route param. i.e. `/chat/user1`
 
 ## Architecture
@@ -26,6 +27,7 @@ After creating user, create chat room by using the username of the receiver as a
  * Gateway: using gRPC to connect to the Chat Service
  * Chat Service: using Redis as in-memory for storage only and connects through rabbitmq to Chat History Service for permanent storage
  * Chat History Service: permanent storage using mongodb (or elasticsearch at some point)
+ * Notification Service
 
 ### Chat Service 
  - application

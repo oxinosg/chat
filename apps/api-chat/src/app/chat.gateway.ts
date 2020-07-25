@@ -142,7 +142,7 @@ export class ChatGateway
   // }
 
   afterInit(...args: any[]) {
-    // TODO load most common data to redis
+    // this.chatService.loadPublic().toPromise()
   }
 
   handleConnection(socket: Socket, ...args: any[]) {

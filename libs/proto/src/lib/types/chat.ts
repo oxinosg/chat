@@ -16,6 +16,7 @@ import {
   UserDisconnectResponse,
   GetUsersConnectionsInput as GetUsersConnectionsRequest,
   GetUsersConnectionsResponse,
+  LoadPublicResponse,
   BaseRoom,
   Message,
   Ok,
@@ -38,6 +39,7 @@ interface ChatServiceOverwrite {
   getUsersConnections(
     req: GetUsersConnectionsRequest,
   ): Observable<GetUsersConnectionsResponse>
+  loadPublic(): Observable<LoadPublicResponse>
 }
 
 export interface ChatService
@@ -59,6 +61,7 @@ export {
   UserDisconnectResponse,
   GetUsersConnectionsRequest,
   GetUsersConnectionsResponse,
+  LoadPublicResponse,
   BaseRoom,
   Message,
   Ok,

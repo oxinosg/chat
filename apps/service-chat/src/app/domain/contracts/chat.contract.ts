@@ -10,6 +10,7 @@ export interface ChatContract {
   getUserAndRoomMeta(arg: GetUserInput): GetUserResponse
   getUsersSocketIds(arg: GetUsersConnectionsInput): GetUsersConnectionsResponse
   getRoom(arg: GetRoomInput): GetUserResponse
+  loadPublic(): LoadPublicResponse
 }
 
 export type Ok = 'OK'
@@ -103,4 +104,8 @@ export interface GetUsersConnectionsInput {
 
 export interface GetUsersConnectionsResponse {
   users: CreateUserResponse[]
+}
+
+export interface LoadPublicResponse {
+  status: string
 }

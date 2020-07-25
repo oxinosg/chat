@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+import "google/protobuf/empty.proto";
+
 package chat;
 
 service ChatService {
@@ -10,6 +12,7 @@ service ChatService {
   rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
   rpc UserDisconnect(UserDisconnectRequest) returns (UserDisconnectResponse);
   rpc GetUsersConnections(GetUsersConnectionsRequest) returns (GetUsersConnectionsResponse);
+  rpc LoadPublic(google.protobuf.Empty) returns (LoadPublicResponse);
 }
 
 message CreateMessageRequest {
@@ -103,4 +106,8 @@ message GetUsersConnectionsRequest {
 
 message GetUsersConnectionsResponse {
   repeated CreateUserResponse users = 1;
+}
+
+message LoadPublicResponse {
+  string status = 1;
 }

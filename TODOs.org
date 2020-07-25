@@ -3,6 +3,7 @@
 ** TODO add a documentation lib and add detailed documentations for everything. project structs, patterns etc
 ** TODO [Chat.tsx] show "cant create room" [[file:/home/ggz/Dev/chat/apps/client-chat/src/app/pages/chat/Chat.tsx::// TODO show "cant create room"][src]] [2020-06-15 Mo]
 ** TODO move common to nx shared components lib, and add storybook
+** TODO replace editor lib
 * TODO Chat Api
 ** TODO [chat.gateway.ts] load most common data to redis [[file:/home/ggz/Dev/chat/apps/api-chat/src/app/chat.gateway.ts::// TODO load most common data to redis][src]] [2020-06-27 Sa]
 ** TODO [chat.gateway.ts] load metadata and latest messages from each room to redis [[file:/home/ggz/Dev/chat/apps/api-chat/src/app/chat.gateway.ts::// TODO load metadata and latest messages from each room to redis][src]] [2020-06-27 Sa]
@@ -10,10 +11,14 @@
 ** TODO [create-message.handler.ts] create model first and generate tim from model, then send to redis [[file:/home/ggz/Dev/chat/apps/service-chat/src/app/application/commands/handlers/create-message.handler.ts::// TODO create model first and generate tim from model, then send to redis][src]] [2020-06-25 Do]
 ** TODO [create-message.handler.ts] turn class to object and add id, also remove id from model [[file:/home/ggz/Dev/chat/apps/service-chat/src/app/application/commands/handlers/create-message.handler.ts::// TODO turn class to object and add id, also remove id from model][src]] [2020-06-25 Do]
 ** TODO [chat.repository.ts] test performance diff between multi and sort for getting all messages [[file:/home/ggz/Dev/chat/apps/service-chat/src/app/infrastucture/repository/chat.repository.ts::// TODO test performance diff between multi and sort for getting all messages][src]] [2020-06-26 Fr]
-* TODO Chat Service History
+** TODO [#A] set up empty message (check if one exists by google) and use it as args for load public proto
+* TODO [#A] Chat Service History
+** TODO [#A] set up seed data for public rooms
 * TODO General Improvements
+** TODO on init of redis/socket populate redis with public rooms
 ** TODO create nx plugin to run all dependant apps in production build in pm2 and only app in development in dev mode
 ** TODO readme.md
 *** TODO add instructions
 *** TODO add TODO section
+* TODO [#A] set up dockerfiles to start services (redis, mongodb seed data for 'popular chats', rabbitmq with queues/virtual hosts)
 * ------ unsorted -------

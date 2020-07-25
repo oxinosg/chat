@@ -1,6 +1,6 @@
-import { Controller } from '@nestjs/common'
+import { Controller, Inject } from '@nestjs/common'
 import { CommandBus, QueryBus } from '@nestjs/cqrs'
-import { GrpcMethod } from '@nestjs/microservices'
+import { GrpcMethod, ClientProxy } from '@nestjs/microservices'
 
 import {
   CreateMessageRequest,
@@ -30,11 +30,20 @@ import {
   UserDisconnectedCommand,
 } from '../commands'
 
+class Message {
+  text: string
+
+  constructor(text) {
+    this.text = text
+  }
+}
+
 @Controller('chat')
 export class ChatController {
   constructor(
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
+    @Inject('CHAT_SERVICE') private readonly client: ClientProxy,
   ) {}
 
   @GrpcMethod('ChatService')
@@ -44,7 +53,11 @@ export class ChatController {
 
   @GrpcMethod('ChatService')
   getRoom(data: GetRoomRequest): Promise<GetRoomResponse> {
-    return this.queryBus.execute(new GetRoomQuery(data))
+    let res = this.queryBus.execute(new GetRoomQuery(data))
+    console.log('===============>')
+    this.client.emit('message_printed', new Message('Hello world!'))
+    console.log('===============>')
+    return res
   }
 
   @GrpcMethod('ChatService')
