@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react'
-import socketIOClient from 'socket.io-client'
 import ctx from 'classnames'
 import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
@@ -18,6 +17,7 @@ import {
   getRooms,
   selectRoom as selectRoomAction,
 } from '../../store/actions'
+import { ioConnect, ioRegister, ioEmit } from '../../store/middleware'
 
 import useStyles from './styles'
 import 'react-chat-elements/dist/main.css'
@@ -34,7 +34,6 @@ const initialRoomState = {
 }
 
 let creatingRoom = false
-let socket
 
 const Chat = ({ userName }: { userName: string }) => {
   const classes = useStyles()
@@ -63,26 +62,29 @@ const Chat = ({ userName }: { userName: string }) => {
       }))
     }
 
-    socket = socketIOClient('http://localhost:4001', {
-      query: {
-        user: userName,
-      },
-    })
+    dispatch(ioConnect(userName))
+    // TODO create a chat init which calls ioConnect and registers new message/room
+    dispatch(ioRegister('message', (data) => dispatch(getMessage(data))))
+    // TODO move all these to create message/create room action which calls ioEmit
+    dispatch(
+      ioRegister('new_room', () => {
+        dispatch(
+          ioEmit({
+            eventName: 'getUserAndRoomMeta',
+            callback: handleGetUserRoomResponse,
+            args: { userId: userName },
+          }),
+        )
+      }),
+    )
 
-    socket.on('new_room', function (data) {
-      socket.emit('getUserAndRoomMeta', { userId: userName }, (response) => {
-        handleGetUserRoomResponse(response)
-      })
-    })
-
-    socket.on('message', function (data) {
-      dispatch(getMessage(data))
-    })
-
-    socket.emit('getUserAndRoomMeta', { userId: userName }, (response) => {
-      console.log(response)
-      handleGetUserRoomResponse(response)
-    })
+    dispatch(
+      ioEmit({
+        eventName: 'getUserAndRoomMeta',
+        callback: handleGetUserRoomResponse,
+        args: { userId: userName },
+      }),
+    )
   }, [])
 
   const { receiverId, jobId } = params
@@ -92,27 +94,28 @@ const Chat = ({ userName }: { userName: string }) => {
 
   useEffect(() => {
     async function createRoom(receiverId) {
-      console.log('create room')
       if (!creatingRoom) {
         try {
           creatingRoom = true
 
-          socket.emit(
-            'createRoom',
-            { members: [userName, receiverId] },
-            (response) => {
-              console.log('Identity:', response)
-              if (response) {
-                dispatch(getRoom(response))
+          dispatch(
+            ioEmit({
+              eventName: 'createRoom',
+              args: { members: [userName, receiverId] },
+              callback: (response) => {
+                console.log('Identity:', response)
+                if (response) {
+                  dispatch(getRoom(response))
 
-                setRoomsState((prev) => ({
-                  ...prev,
-                  selectedRoom: response.id,
-                  roomSet: true,
-                }))
-                handleRoomClick(response.id)
-              }
-            },
+                  setRoomsState((prev) => ({
+                    ...prev,
+                    selectedRoom: response.id,
+                    roomSet: true,
+                  }))
+                  handleRoomClick(response.id)
+                }
+              },
+            }),
           )
         } catch (error) {
           console.error(error)
@@ -120,9 +123,6 @@ const Chat = ({ userName }: { userName: string }) => {
       }
     }
 
-    console.log('roomSet: ', roomSet)
-    console.log('roomsLoading: ', roomsLoading)
-    console.log('receiverId: ', receiverId)
     if (!roomSet && roomsLoading === false && receiverId) {
       let room
       if (Array.isArray(rooms.allIds) && rooms.allIds.length > 0) {
@@ -175,16 +175,18 @@ const Chat = ({ userName }: { userName: string }) => {
   }, [messages])
 
   const createMessage = (value: string) => {
-    socket.emit(
-      'sendMessage',
-      {
-        userId: userName,
-        roomId: selectedRoom,
-        content: value.replace(/^(\s*<br>)*|(<p><br><\/p>\s*)*$/gm, ''),
-      },
-      (res) => {
-        dispatch(getMessage(res))
-      },
+    dispatch(
+      ioEmit({
+        eventName: 'sendMessage',
+        args: {
+          userId: userName,
+          roomId: selectedRoom,
+          content: value.replace(/^(\s*<br>)*|(<p><br><\/p>\s*)*$/gm, ''),
+        },
+        callback: (response) => {
+          dispatch(getMessage(response))
+        },
+      }),
     )
   }
 
@@ -198,9 +200,17 @@ const Chat = ({ userName }: { userName: string }) => {
   async function selectRoom(room) {
     if (room && room.id) {
       try {
-        socket.emit('getRoom', { roomId: room.id }, (response) => {
-          dispatch(getRoom(response))
-        })
+        dispatch(
+          ioEmit({
+            eventName: 'getRoom',
+            args: {
+              roomId: room.id,
+            },
+            callback: (response) => {
+              dispatch(getRoom(response))
+            },
+          }),
+        )
 
         setRoomsState({
           ...roomsState,

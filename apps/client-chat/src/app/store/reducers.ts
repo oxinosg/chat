@@ -2,6 +2,8 @@ import { combineReducers } from 'redux'
 import produce from 'immer'
 import sortBy from 'lodash.sortby'
 
+import { ioReducer } from './middleware'
+
 import {
   ChatActionTypes,
   ChatState,

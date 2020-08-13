@@ -17,3 +17,5 @@
 *** TODO add instructions
 *** TODO add TODO section
 * ------ unsorted -------
+* TODO [Chat.tsx] create a chat init which calls ioConnect and registers new message/room [[file:/home/ggz/Dev/chat/apps/client-chat/src/app/pages/chat/Chat.tsx::// TODO create a chat init which calls ioConnect and registers new message/room][src]] [2020-08-14 Fr]
+* TODO [Chat.tsx] move all these to create message/create room action which calls ioEmit [[file:/home/ggz/Dev/chat/apps/client-chat/src/app/pages/chat/Chat.tsx::// TODO move all these to create message/create room action which calls ioEmit][src]] [2020-08-14 Fr]

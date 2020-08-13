@@ -11,3 +11,16 @@
  - constants
  - contect: hocs and context api
  - hooks
+ 
+## TODO:
+ - [ ] replace react-quill with draft.js
+ - [ ] redux + rest
+ - [ ] apollo client 
+ - [ ] redux + graphql-request
+
+To test for shared components:
+ - https://tailwindcss.com/
+ - https://csslayout.io/patterns/
+ - https://tablericons.com/
+ - https://mertjf.github.io/
+ - https://www.fast.design/
