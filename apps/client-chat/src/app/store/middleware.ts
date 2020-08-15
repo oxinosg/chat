@@ -1,14 +1,14 @@
 import socketIOClient from 'socket.io-client'
 import { MiddlewareAPI } from 'redux'
 
-export const IO_CONNECT = 'IO_CONNECT'
-export const IO_CONNECTING = 'IO_CONNECTING'
-export const IO_CONNECTED = 'IO_CONNECTED'
-export const IO_DISCONNECT = 'IO_DISCONNECT'
-export const IO_DISCONNECTED = 'IO_DISCONNECTED'
-export const IO_EMIT = 'IO_EMIT'
-export const IO_REGISTER = 'IO_REGISTER'
-export const IO_DEREGISTER = 'IO_DEREGISTER'
+const IO_CONNECT = 'IO_CONNECT'
+const IO_CONNECTING = 'IO_CONNECTING'
+const IO_CONNECTED = 'IO_CONNECTED'
+const IO_DISCONNECT = 'IO_DISCONNECT'
+const IO_DISCONNECTED = 'IO_DISCONNECTED'
+const IO_EMIT = 'IO_EMIT'
+const IO_REGISTER = 'IO_REGISTER'
+const IO_DEREGISTER = 'IO_DEREGISTER'
 
 interface IoConnectAction {
   type: typeof IO_CONNECT
@@ -38,7 +38,7 @@ interface IoEmitAction {
   payload: {
     eventName: string
     args?: any
-    callback: (response: any) => void
+    callbackAction: any
   }
 }
 
@@ -46,7 +46,7 @@ interface IoRegisterAction {
   type: typeof IO_REGISTER
   payload: {
     eventName: string
-    callback: (response: any) => void
+    callbackAction: any
   }
 }
 
@@ -54,7 +54,7 @@ interface IoDeregisterAction {
   type: typeof IO_DEREGISTER
 }
 
-export type IoActionTypes =
+type IoActionTypes =
   | IoConnectAction
   | IoConnectingAction
   | IoConnectedAction
@@ -96,33 +96,32 @@ export function ioDisconnected(): IoActionTypes {
   }
 }
 
-export function ioEmit({ eventName, args, callback }): IoActionTypes {
+export function ioEmit(
+  eventName: string,
+  callbackAction: any,
+  args?: any,
+): IoActionTypes {
   return {
     type: IO_EMIT,
     payload: {
       eventName,
-      callback,
       args,
+      callbackAction,
     },
   }
 }
 
 export function ioRegister(
   eventName: string,
-  callback: (response: any) => void,
+  callbackAction: any,
 ): IoActionTypes {
   return {
     type: IO_REGISTER,
     payload: {
       eventName,
-      callback,
+      callbackAction,
     },
   }
-}
-
-export function ioReducer(state = {}, action: IoActionTypes) {
-  debugger
-  return state
 }
 
 export function socketMiddleware(host: string) {
@@ -157,19 +156,19 @@ export function socketMiddleware(host: string) {
               action.payload.eventName,
               action.payload.args,
               (response: any) => {
-                action.payload.callback(response)
+                store.dispatch(action.payload.callbackAction(response))
               },
             )
           } else {
             socket.emit(action.payload.eventName, (response: any) => {
-              action.payload.callback(response)
+              store.dispatch(action.payload.callbackAction(response))
             })
           }
-          break
+
         case IO_REGISTER:
+          // TODO create interfaces based on contracts and used a validation lib here to verify data
           socket.on(action.payload.eventName, (data: any) => {
-            console.log(data)
-            action.payload.callback(data)
+            store.dispatch(action.payload.callbackAction(data))
           })
           break
         case IO_DEREGISTER:

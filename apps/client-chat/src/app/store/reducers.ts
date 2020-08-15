@@ -2,8 +2,6 @@ import { combineReducers } from 'redux'
 import produce from 'immer'
 import sortBy from 'lodash.sortby'
 
-import { ioReducer } from './middleware'
-
 import {
   ChatActionTypes,
   ChatState,
@@ -14,6 +12,9 @@ import {
   CREATE_ROOM,
   JOIN_ROOM,
   SELECT_ROOM,
+  ROOM_RECEIVED,
+  USER_RECEIVED,
+  NEW_MESSAGE_RECEIVED,
 } from './types'
 
 const initialState: ChatState = {
@@ -26,6 +27,7 @@ const initialState: ChatState = {
     byId: {},
   },
   selectedRoom: null,
+  userReceived: false,
 }
 
 export function chatReducer(
@@ -33,36 +35,40 @@ export function chatReducer(
   action: ChatActionTypes,
 ): ChatState {
   switch (action.type) {
+    case NEW_MESSAGE_RECEIVED:
     case GET_MESSAGE:
       return produce(state, (draftState) => {
         draftState.rooms.byId[state.selectedRoom].messages.push(action.payload)
       })
-
-    case GET_USER:
-      console.log('rooms')
+    case USER_RECEIVED:
+      console.log('user received reducer:')
       console.log(action)
       return {
         ...state,
         users: {
           byId: {
             ...state.users.byId,
-            [action.payload.id]: action.payload,
+            [action.payload.user.id]: action.payload.user,
           },
-          allIds: [...state.users.allIds, action.payload.id],
+          allIds: [...state.users.allIds, action.payload.user.id],
         },
         rooms: {
           byId: {
             ...state.rooms.byId,
             ...action.payload.rooms.reduce((obj, curr) => {
-              obj[curr] = null
+              obj[curr.id] = curr
               return obj
             }, {}),
           },
-          allIds: [...state.rooms.allIds, ...action.payload.rooms],
+          allIds: [
+            ...state.rooms.allIds,
+            ...action.payload.rooms.map((r) => r.id),
+          ],
         },
+        userReceived: true,
       }
 
-    case GET_ROOM: {
+    case ROOM_RECEIVED: {
       const { messages, ...rest } = action.payload
 
       return {
@@ -79,6 +85,7 @@ export function chatReducer(
             ? state.rooms.allIds
             : [...state.rooms.allIds, action.payload.id],
         },
+        selectedRoom: action.payload.id,
       }
     }
 
@@ -123,7 +130,6 @@ export function chatReducer(
 }
 
 // src/store/index.ts
-
 export const rootReducer = combineReducers({
   chat: chatReducer,
 })

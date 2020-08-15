@@ -4,7 +4,7 @@
  - components: react components. each component is structred as: components/index/styles
  - pages: represents application pages. each page is independent from each other and is structed like a component. (also includes routes)
  - store: state managment related files:
-   - redux: actions/reducers/selectors/effects/types
+   - redux: actions/reducers/selectors/effects/sagas/types
    - apollo: containers/selectors
  - services: api calls, graphql queries/mutations
  - utils
@@ -13,10 +13,13 @@
  - hooks
  
 ## TODO:
+ - [x] redux socket.io middleware
  - [ ] replace react-quill with draft.js
- - [ ] redux + rest
- - [ ] apollo client 
- - [ ] redux + graphql-request
+
+To test state managment for:
+ - redux + rest
+ - apollo client 
+ - redux + graphql-request
 
 To test for shared components:
  - https://tailwindcss.com/
