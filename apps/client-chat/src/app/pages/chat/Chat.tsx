@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react'
-import socketIOClient from 'socket.io-client'
 import ctx from 'classnames'
 import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
@@ -12,11 +11,11 @@ import ChatMessageList from '../../components/ChatMessageList'
 import ChatRoomList from '../../components/ChatRoomList'
 import { RootState } from '../../store/reducers'
 import {
-  getUser,
-  getMessage,
-  getRoom,
-  getRooms,
+  getUser as getUserAction,
   selectRoom as selectRoomAction,
+  createRoom as createRoomAction,
+  connectChat as connectChatAction,
+  sendMessage as sendMessageAction,
 } from '../../store/actions'
 
 import useStyles from './styles'
@@ -34,12 +33,13 @@ const initialRoomState = {
 }
 
 let creatingRoom = false
-let socket
 
 const Chat = ({ userName }: { userName: string }) => {
   const classes = useStyles()
 
-  const { rooms } = useSelector((state: RootState) => state.chat)
+  const { rooms, userReceived, selectedRoom } = useSelector(
+    (state: RootState) => state.chat,
+  )
   const dispatch = useDispatch()
 
   const [roomsState, setRoomsState] = useState(initialRoomState)
@@ -48,41 +48,14 @@ const Chat = ({ userName }: { userName: string }) => {
   const inputEl = useRef(null)
 
   useEffect(() => {
-    function handleGetUserRoomResponse(response) {
-      if (response.user) {
-        dispatch(getUser(response.user))
-      }
+    dispatch(connectChatAction(userName))
 
-      if (response.rooms) {
-        dispatch(getRooms(response.rooms))
-      }
+    setRoomsState((state) => ({
+      ...state,
+      roomsLoading: false,
+    }))
 
-      setRoomsState((state) => ({
-        ...state,
-        roomsLoading: false,
-      }))
-    }
-
-    socket = socketIOClient('http://localhost:4001', {
-      query: {
-        user: userName,
-      },
-    })
-
-    socket.on('new_room', function (data) {
-      socket.emit('getUserAndRoomMeta', { userId: userName }, (response) => {
-        handleGetUserRoomResponse(response)
-      })
-    })
-
-    socket.on('message', function (data) {
-      dispatch(getMessage(data))
-    })
-
-    socket.emit('getUserAndRoomMeta', { userId: userName }, (response) => {
-      console.log(response)
-      handleGetUserRoomResponse(response)
-    })
+    dispatch(getUserAction(userName))
   }, [])
 
   const { receiverId, jobId } = params
@@ -92,38 +65,19 @@ const Chat = ({ userName }: { userName: string }) => {
 
   useEffect(() => {
     async function createRoom(receiverId) {
-      console.log('create room')
       if (!creatingRoom) {
-        try {
-          creatingRoom = true
+        creatingRoom = true
 
-          socket.emit(
-            'createRoom',
-            { members: [userName, receiverId] },
-            (response) => {
-              console.log('Identity:', response)
-              if (response) {
-                dispatch(getRoom(response))
+        dispatch(createRoomAction([userName, receiverId]))
 
-                setRoomsState((prev) => ({
-                  ...prev,
-                  selectedRoom: response.id,
-                  roomSet: true,
-                }))
-                handleRoomClick(response.id)
-              }
-            },
-          )
-        } catch (error) {
-          console.error(error)
-        }
+        setRoomsState((prev) => ({
+          ...prev,
+          roomSet: true,
+        }))
       }
     }
 
-    console.log('roomSet: ', roomSet)
-    console.log('roomsLoading: ', roomsLoading)
-    console.log('receiverId: ', receiverId)
-    if (!roomSet && roomsLoading === false && receiverId) {
+    if (!roomSet && roomsLoading === false && userReceived && receiverId) {
       let room
       if (Array.isArray(rooms.allIds) && rooms.allIds.length > 0) {
         if (receiverId) {
@@ -157,7 +111,6 @@ const Chat = ({ userName }: { userName: string }) => {
     }
   }, [roomSet, roomsLoading, receiverId])
 
-  const { selectedRoom } = roomsState
   let room
   if (rooms.allIds.length > 0) {
     if (selectedRoom) {
@@ -175,16 +128,12 @@ const Chat = ({ userName }: { userName: string }) => {
   }, [messages])
 
   const createMessage = (value: string) => {
-    socket.emit(
-      'sendMessage',
-      {
-        userId: userName,
-        roomId: selectedRoom,
-        content: value.replace(/^(\s*<br>)*|(<p><br><\/p>\s*)*$/gm, ''),
-      },
-      (res) => {
-        dispatch(getMessage(res))
-      },
+    dispatch(
+      sendMessageAction(
+        userName,
+        selectedRoom,
+        value.replace(/^(\s*<br>)*|(<p><br><\/p>\s*)*$/gm, ''),
+      ),
     )
   }
 
@@ -197,20 +146,12 @@ const Chat = ({ userName }: { userName: string }) => {
 
   async function selectRoom(room) {
     if (room && room.id) {
-      try {
-        socket.emit('getRoom', { roomId: room.id }, (response) => {
-          dispatch(getRoom(response))
-        })
+      setRoomsState({
+        ...roomsState,
+        selectedRoom: room.id,
+      })
 
-        setRoomsState({
-          ...roomsState,
-          selectedRoom: room.id,
-        })
-
-        dispatch(selectRoomAction(room.id))
-      } catch (error) {
-        console.error(error)
-      }
+      dispatch(selectRoomAction(room.id))
     }
   }
 

@@ -1,8 +1,12 @@
 * TODO Chat Client
 ** TODO [#C] check if browser supports websockets
+** TODO replace react-quill with draft.js
 ** TODO add a documentation lib and add detailed documentations for everything. project structs, patterns etc
 ** TODO [Chat.tsx] show "cant create room" [[file:/home/ggz/Dev/chat/apps/client-chat/src/app/pages/chat/Chat.tsx::// TODO show "cant create room"][src]] [2020-06-15 Mo]
 ** TODO move common to nx shared components lib, and add storybook
+** TODO [Chat.tsx] create a chat init which calls ioConnect and registers new message/room [[file:/home/ggz/Dev/chat/apps/client-chat/src/app/pages/chat/Chat.tsx::// TODO create a chat init which calls ioConnect and registers new message/room][src]] [2020-08-14 Fr]
+** TODO [Chat.tsx] move all these to create message/create room action which calls ioEmit [[file:/home/ggz/Dev/chat/apps/client-chat/src/app/pages/chat/Chat.tsx::// TODO move all these to create message/create room action which calls ioEmit][src]] [2020-08-14 Fr]
+** TODO [middleware.ts] create interfaces based on contracts and used a validation lib here to verify data [[file:/home/ggz/Dev/chat/apps/client-chat/src/app/store/middleware.ts::// TODO create interfaces based on contracts and used a validation lib here to verify data][src]] [2020-08-14 Fr]
 * TODO Chat Api
 ** TODO [chat.gateway.ts] load most common data to redis [[file:/home/ggz/Dev/chat/apps/api-chat/src/app/chat.gateway.ts::// TODO load most common data to redis][src]] [2020-06-27 Sa]
 ** TODO [chat.gateway.ts] load metadata and latest messages from each room to redis [[file:/home/ggz/Dev/chat/apps/api-chat/src/app/chat.gateway.ts::// TODO load metadata and latest messages from each room to redis][src]] [2020-06-27 Sa]
@@ -17,3 +21,5 @@
 *** TODO add instructions
 *** TODO add TODO section
 * ------ unsorted -------
+* TODO [types.ts] set up to fetch room info in saga then store [[file:/home/ggz/Dev/chat/apps/client-chat/src/app/store/types.ts::// TODO set up to fetch room info in saga then store][src]] [2020-08-14 Fr]
+* TODO [saga.ts] add error handlers and data validators based on contracts [[file:/home/ggz/Dev/chat/apps/client-chat/src/app/store/saga.ts::// TODO add error handlers and data validators based on contracts][src]] [2020-08-15 Sa]
