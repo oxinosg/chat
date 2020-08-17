@@ -137,13 +137,6 @@ const Chat = ({ userName }: { userName: string }) => {
     )
   }
 
-  const handleRoomClick = (id) => {
-    setRoomsState({
-      ...roomsState,
-      selectedRoom: id,
-    })
-  }
-
   async function selectRoom(room) {
     if (room && room.id) {
       setRoomsState({

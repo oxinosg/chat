@@ -109,7 +109,7 @@ export interface MessageReceivedAction {
   payload: Message
 }
 
-export type ChatActionTypes =
+export type ChatActions =
   | GetUserAction
   | CreateRoomAction
   | JoinRoomAction

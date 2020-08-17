@@ -3,7 +3,7 @@ import produce from 'immer'
 import sortBy from 'lodash.sortby'
 
 import {
-  ChatActionTypes,
+  ChatActions,
   ChatState,
   GET_USER,
   GET_ROOM,
@@ -32,7 +32,7 @@ const initialState: ChatState = {
 
 export function chatReducer(
   state = initialState,
-  action: ChatActionTypes,
+  action: ChatActions,
 ): ChatState {
   switch (action.type) {
     case NEW_MESSAGE_RECEIVED:
@@ -41,8 +41,6 @@ export function chatReducer(
         draftState.rooms.byId[state.selectedRoom].messages.push(action.payload)
       })
     case USER_RECEIVED:
-      console.log('user received reducer:')
-      console.log(action)
       return {
         ...state,
         users: {

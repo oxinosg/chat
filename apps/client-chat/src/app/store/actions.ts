@@ -1,14 +1,10 @@
 import {
-  ChatActionTypes,
+  ChatActions,
   Message,
-  User,
   Room,
   CHAT_CONNECT,
   CHAT_DISCONNECT,
   GET_USER,
-  GET_ROOM,
-  GET_ROOMS,
-  GET_MESSAGE,
   CREATE_ROOM,
   JOIN_ROOM,
   SELECT_ROOM,
@@ -20,7 +16,7 @@ import {
 } from './types'
 
 // TypeScript infers that this function is returning GetMessageAction
-export function getUser(userName: string): ChatActionTypes {
+export function getUser(userName: string): ChatActions {
   return {
     type: GET_USER,
     payload: {
@@ -29,7 +25,7 @@ export function getUser(userName: string): ChatActionTypes {
   }
 }
 
-export function createRoom(members: string[]): ChatActionTypes {
+export function createRoom(members: string[]): ChatActions {
   return {
     type: CREATE_ROOM,
     payload: {
@@ -38,8 +34,8 @@ export function createRoom(members: string[]): ChatActionTypes {
   }
 }
 
-// Type of user/rooms will be specified by TS from ChatActionTypes
-export function userReceived({ user, rooms }): ChatActionTypes {
+// Type of user/rooms will be specified by TS from ChatActions
+export function userReceived({ user, rooms }): ChatActions {
   return {
     type: USER_RECEIVED,
     payload: {
@@ -54,21 +50,21 @@ export function userReceived({ user, rooms }): ChatActionTypes {
   }
 }
 
-export function roomReceived(room: Room): ChatActionTypes {
+export function roomReceived(room: Room): ChatActions {
   return {
     type: ROOM_RECEIVED,
     payload: room,
   }
 }
 
-export function newRoomReceived(room: Room): ChatActionTypes {
+export function newRoomReceived(room: Room): ChatActions {
   return {
     type: NEW_ROOM_RECEIVED,
     payload: room,
   }
 }
 
-export function messageReceived(message: Message): ChatActionTypes {
+export function messageReceived(message: Message): ChatActions {
   return {
     type: NEW_MESSAGE_RECEIVED,
     payload: message,
@@ -79,7 +75,7 @@ export function sendMessage(
   userId: string,
   roomId: string,
   content: string,
-): ChatActionTypes {
+): ChatActions {
   return {
     type: SEND_MESSAGE,
     payload: {
@@ -90,21 +86,21 @@ export function sendMessage(
   }
 }
 
-export function joinRoom(room: Room): ChatActionTypes {
+export function joinRoom(room: Room): ChatActions {
   return {
     type: JOIN_ROOM,
     payload: room,
   }
 }
 
-export function selectRoom(id: string): ChatActionTypes {
+export function selectRoom(id: string): ChatActions {
   return {
     type: SELECT_ROOM,
     payload: id,
   }
 }
 
-export function connectChat(userName): ChatActionTypes {
+export function connectChat(userName): ChatActions {
   return {
     type: CHAT_CONNECT,
     payload: {
@@ -113,7 +109,7 @@ export function connectChat(userName): ChatActionTypes {
   }
 }
 
-export function disconnectChat(): ChatActionTypes {
+export function disconnectChat(): ChatActions {
   return {
     type: CHAT_DISCONNECT,
   }

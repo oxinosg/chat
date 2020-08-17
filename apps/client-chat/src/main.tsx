@@ -13,15 +13,11 @@ import { rootReducer } from './app/store/reducers'
 
 import App from './app/app'
 import theme from './app/theme'
-import rootSaga from './app/store/saga'
-
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-//   ? (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__()
-//   : compose
+import rootSaga from './app/store/effects'
 
 const sagaMiddleware = createSagaMiddleware()
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const composeEnhancers =
   (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
