@@ -77,7 +77,7 @@ const Chat = ({ userName }: { userName: string }) => {
       }
     }
 
-    if (!roomSet && roomsLoading === false && userReceived && receiverId) {
+    if (!roomSet && roomsLoading === false && receiverId) {
       let room
       if (Array.isArray(rooms.allIds) && rooms.allIds.length > 0) {
         if (receiverId) {

@@ -17,7 +17,7 @@
  - services: api calls, graphql queries/mutations
  - utils
  - constants
- - contect: hocs and context api
+ - context: hocs and context api
  - hooks
  
 ## TODO:

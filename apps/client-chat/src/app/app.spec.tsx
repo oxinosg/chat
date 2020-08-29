@@ -23,6 +23,6 @@ describe('App', () => {
       </BrowserRouter>,
     )
 
-    expect(getByText('Welcome to client-chat!')).toBeTruthy()
+    expect(getByText('Login')).toBeTruthy()
   })
 })

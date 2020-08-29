@@ -65,10 +65,14 @@ function* handleSendMessage(action: SendMessageAction): Generator {
   )
 }
 
-export default function* rootSaga() {
+function* watchCreateRoom(): Generator {
   yield takeEvery(CHAT_CONNECT, handleConnectChat)
   yield takeEvery(CREATE_ROOM, handleCreateRoom)
   yield takeEvery(SEND_MESSAGE, handleSendMessage)
   yield takeEvery(SELECT_ROOM, handleGetRoom)
   yield takeEvery([GET_USER, NEW_ROOM_RECEIVED], handleGetUser)
+}
+
+export default function* rootSaga() {
+  yield spawn(watchCreateRoom)
 }

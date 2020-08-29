@@ -7,4 +7,9 @@ module.exports = {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'html'],
   coverageDirectory: '../../coverage/libs/contracts',
+  globals: {
+    'ts-jest': {
+      diagnostics: false,
+    },
+  },
 }
