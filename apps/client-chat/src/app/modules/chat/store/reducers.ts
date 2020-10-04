@@ -5,11 +5,6 @@ import sortBy from 'lodash.sortby'
 import {
   ChatActions,
   ChatState,
-  GET_USER,
-  GET_ROOM,
-  GET_ROOMS,
-  GET_MESSAGE,
-  CREATE_ROOM,
   JOIN_ROOM,
   SELECT_ROOM,
   ROOM_RECEIVED,
@@ -36,7 +31,6 @@ export function chatReducer(
 ): ChatState {
   switch (action.type) {
     case NEW_MESSAGE_RECEIVED:
-    case GET_MESSAGE:
       return produce(state, (draftState) => {
         draftState.rooms.byId[state.selectedRoom].messages.push(action.payload)
       })
@@ -87,31 +81,31 @@ export function chatReducer(
       }
     }
 
-    case GET_ROOMS: {
-      const rooms = action.payload.reduce(
-        (obj, curr) => {
-          if (!state.rooms.byId[curr.id]) {
-            if (!state.rooms.allIds.includes(curr.id)) {
-              obj.allIds.push(curr.id)
-            }
-            obj.byId[curr.id] = curr
-          }
-          return obj
-        },
-        { byId: {}, allIds: [] },
-      )
+    // case GET_ROOMS: {
+    //   const rooms = action.payload.reduce(
+    //     (obj, curr) => {
+    //       if (!state.rooms.byId[curr.id]) {
+    //         if (!state.rooms.allIds.includes(curr.id)) {
+    //           obj.allIds.push(curr.id)
+    //         }
+    //         obj.byId[curr.id] = curr
+    //       }
+    //       return obj
+    //     },
+    //     { byId: {}, allIds: [] },
+    //   )
 
-      return {
-        ...state,
-        rooms: {
-          byId: {
-            ...state.rooms.byId,
-            ...rooms.byId,
-          },
-          allIds: [...state.rooms.allIds, ...rooms.allIds],
-        },
-      }
-    }
+    //   return {
+    //     ...state,
+    //     rooms: {
+    //       byId: {
+    //         ...state.rooms.byId,
+    //         ...rooms.byId,
+    //       },
+    //       allIds: [...state.rooms.allIds, ...rooms.allIds],
+    //     },
+    //   }
+    // }
 
     case SELECT_ROOM:
       return {

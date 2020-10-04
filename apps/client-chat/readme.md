@@ -23,6 +23,7 @@
 ## TODO:
  - [x] redux socket.io middleware
  - [ ] replace react-quill with draft.js
+ - [ ] setup documentation (jsdoc, storybook) 
 
 To test state managment for:
  - redux + rest

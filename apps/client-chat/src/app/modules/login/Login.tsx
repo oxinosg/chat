@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
 
-import { TextInputField, LoadingButton } from '../../components/common'
+import { TextInputField, LoadingButton } from '../../componentLib'
 import { useStyles } from './styles'
 
 type IProps = {

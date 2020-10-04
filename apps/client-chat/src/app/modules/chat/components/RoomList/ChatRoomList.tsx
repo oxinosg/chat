@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 
 import { ChatList } from 'react-chat-elements'
 
-import { RootState } from '../../store/reducers'
+import { RootState } from '../../store'
 import identicon from 'identicon.js'
 
 type IProps = {

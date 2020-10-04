@@ -6,18 +6,17 @@ import { useSelector, useDispatch } from 'react-redux'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 
-import ChatInput from '../../components/ChatInput'
-import ChatMessageList from '../../components/ChatMessageList'
-import ChatRoomList from '../../components/ChatRoomList'
-import { RootState } from '../../store/reducers'
+import ChatInput from './components/Input'
+import ChatMessageList from './components/MessageList'
+import ChatRoomList from './components/RoomList'
+import { RootState } from './store'
 import {
   getUser as getUserAction,
   selectRoom as selectRoomAction,
   createRoom as createRoomAction,
   connectChat as connectChatAction,
   sendMessage as sendMessageAction,
-} from '../../store/actions'
-
+} from './store'
 import useStyles from './styles'
 import 'react-chat-elements/dist/main.css'
 

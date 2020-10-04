@@ -2,7 +2,7 @@ import { red, grey } from '@material-ui/core/colors'
 import { createMuiTheme } from '@material-ui/core/styles'
 
 // A custom theme for this app
-const theme = createMuiTheme({
+export const theme = createMuiTheme({
   palette: {
     common: {
       black: '#282835',
@@ -72,7 +72,7 @@ const theme = createMuiTheme({
   },
 })
 
-const withOverrides = {
+export const themeWithOverrides = {
   ...theme,
   shadows: ['none', '0px 0px 10px #00000026', ...theme.shadows],
   overrides: {
@@ -171,5 +171,3 @@ const withOverrides = {
     },
   },
 }
-
-export default withOverrides

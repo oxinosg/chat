@@ -43,7 +43,7 @@ export class CreateRoomHandler implements ICommandHandler<CreateRoomCommand> {
         ),
       )
 
-      room.publish(new RoomCreatedEvent(room))
+      room.publish(new RoomCreatedEvent(room as any))
       room.commit()
 
       return room

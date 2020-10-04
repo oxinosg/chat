@@ -1,1 +1,1 @@
-export * from './debounced'
+export * from './debounce'

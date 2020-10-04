@@ -63,6 +63,62 @@ After creating user, create chat room by using the username of the receiver as a
  - context: hocs and context api
  - hooks
  
+ #### DDD approach
+ 
+ - core: configuration files for the 3rd party libs (apollo client, etc)
+ - component lib: react components. each component is structred as: components/index/styles
+   - atoms
+   - molecules
+   - organisms (error handers etc)
+ - components: same as component lib, but for app specific components and
+   - organisms
+ - store: global state managment related files:
+   - redux: 
+     - actions
+     - reducers
+     - middleware
+     - effects
+     - selectors
+     - types
+   - apollo: 
+     - containers
+     - selectors
+ - services: api calls, graphql queries/mutations
+ - utils: shared utils
+ - constants: shared constants
+ - context: hocs and context api
+ - hooks: shared hooks
+ - modules: in most cases represents application pages, also contains an app module which contains app logic (routes, themes, appbar). each page is independent from each other
+   - home
+     - store: state managment related files:
+       - redux: 
+         - actions
+         - reducers
+         - middleware
+         - effects
+         - selectors
+         - types
+       - apollo: 
+         - containers
+         - selectors
+     - services: api calls, graphql queries/mutations
+     - utils
+     - constants
+     - context: hocs and context api
+     - hooks
+     - componentes: organisms, layouts are in component folder
+     - Component.ts: page is in top level
+     - index.ts
+   - routes.tsx
+   - index.ts
+ 
+ NOTE: everything in top level (shared components, hooks, utils) must be well documented using storybook, jsdoc
+
+ NOTE: store, services, utils, constants, context, hooks can be split into shared lib if they are not app specific
+ 
+ NOTE: for component development follow atomic design
+ for exmplanation [atomic design](https://atomicdesign.bradfrost.com/chapter-2/)
+ 
 ### Contract Lib 
   
 Library containing contract interfaces from each service

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Route } from 'react-router-dom'
 
-import Chat from './pages/chat'
-import Login from './pages/login'
+import Chat from '../chat'
+import Login from '../login'
 
 export const App = () => {
   const [userName, setUserName] = useState(null)

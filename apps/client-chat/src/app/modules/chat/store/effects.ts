@@ -1,6 +1,6 @@
 import { spawn, put, takeEvery, all } from 'redux-saga/effects'
 
-import { ioEmit, ioConnect, ioRegister } from './middleware'
+import { ioEmit, ioConnect, ioRegister } from '../../../store/middleware'
 import {
   GET_USER,
   CREATE_ROOM,
@@ -65,7 +65,7 @@ function* handleSendMessage(action: SendMessageAction): Generator {
   )
 }
 
-export default function* rootSaga() {
+export function* rootSaga() {
   yield takeEvery(CHAT_CONNECT, handleConnectChat)
   yield takeEvery(CREATE_ROOM, handleCreateRoom)
   yield takeEvery(SEND_MESSAGE, handleSendMessage)

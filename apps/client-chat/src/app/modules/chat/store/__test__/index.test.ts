@@ -3,7 +3,6 @@ import { call, take, spawn, put, takeEvery, all } from 'redux-saga/effects'
 import { createStore, applyMiddleware, compose } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 
-import { socketMiddleware } from '../middleware'
 import { rootReducer } from '../reducers'
 import { createRoom } from '../actions'
 import rootSaga from '../effects'
