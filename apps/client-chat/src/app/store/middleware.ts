@@ -1,5 +1,7 @@
 import socketIOClient from 'socket.io-client'
-import { MiddlewareAPI } from 'redux'
+import { MiddlewareAPI } from '@reduxjs/toolkit'
+
+// TODO switch to redux toolkit utils
 
 const IO_CONNECT = 'IO_CONNECT'
 const IO_CONNECTING = 'IO_CONNECTING'
