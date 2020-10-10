@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import Button from '@material-ui/core/Button'
 import { MessageList } from 'react-chat-elements'
 
-import { RootState } from '../../store'
+import { RootState } from '../../../../../main'
 import useStyles from './styles'
 
 const ChatMessageList = ({ userName, selectedRoom }) => {

@@ -52,7 +52,6 @@
     "grpc": "^1.24.3",
     "html-react-parser": "^0.13.0",
     "identicon.js": "^2.3.3",
-    "immer": "^7.0.1",
     "ioredis": "^4.17.3",
     "lodash.sortby": "^4.7.0",
     "mongodb": "^3.5.9",

@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid'
 import ChatInput from './components/Input'
 import ChatMessageList from './components/MessageList'
 import ChatRoomList from './components/RoomList'
-import { RootState } from './store'
+import { RootState } from '../../../main'
 import {
   getUser as getUserAction,
   selectRoom as selectRoomAction,
@@ -128,11 +128,11 @@ const Chat = ({ userName }: { userName: string }) => {
 
   const createMessage = (value: string) => {
     dispatch(
-      sendMessageAction(
-        userName,
-        selectedRoom,
-        value.replace(/^(\s*<br>)*|(<p><br><\/p>\s*)*$/gm, ''),
-      ),
+      sendMessageAction({
+        userId: userName,
+        roomId: selectedRoom,
+        content: value.replace(/^(\s*<br>)*|(<p><br><\/p>\s*)*$/gm, ''),
+      }),
     )
   }
 

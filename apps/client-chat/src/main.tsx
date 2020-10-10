@@ -10,18 +10,24 @@ import { Switch } from 'react-router-dom'
 
 import App, { themeWithOverrides } from './app/modules/app/'
 import { socketMiddleware } from './app/store/middleware'
-import { rootSaga, rootReducer } from './app/modules/chat/'
+import { rootSaga } from './app/modules/chat/'
+import chatReducer from './app/modules/chat/store/slice'
 
 const sagaMiddleware = createSagaMiddleware()
 
 const store = configureStore({
-  reducer: rootReducer,
+  reducer: {
+    chat: chatReducer,
+  },
+  // reducer: rootReducer,
   middleware: [
     socketMiddleware('http://localhost:4001'),
     sagaMiddleware,
     ...getDefaultMiddleware({ thunk: false }),
   ],
+  devTools: process.env.NODE_ENV !== 'production',
 })
+export type RootState = ReturnType<typeof store.getState>
 
 sagaMiddleware.run(rootSaga)
 

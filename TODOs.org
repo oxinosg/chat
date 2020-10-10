@@ -1,6 +1,7 @@
 * TODO [#A] Chat Client
 ** TODO [#A] switch to DDD structure
 ** TODO [#A] switch to use redux toolkit
+** TODO redux-persist
 ** TODO [#C] check if browser supports websockets
 ** TODO replace react-quill with draft.js
 ** TODO add a documentation lib and add detailed documentations for everything. project structs, patterns etc
@@ -17,6 +18,7 @@
 ** TODO [create-message.handler.ts] create model first and generate tim from model, then send to redis [[file:/home/ggz/Dev/chat/apps/service-chat/src/app/application/commands/handlers/create-message.handler.ts::// TODO create model first and generate tim from model, then send to redis][src]] [2020-06-25 Do]
 ** TODO [create-message.handler.ts] turn class to object and add id, also remove id from model [[file:/home/ggz/Dev/chat/apps/service-chat/src/app/application/commands/handlers/create-message.handler.ts::// TODO turn class to object and add id, also remove id from model][src]] [2020-06-25 Do]
 ** TODO [chat.repository.ts] test performance diff between multi and sort for getting all messages [[file:/home/ggz/Dev/chat/apps/service-chat/src/app/infrastucture/repository/chat.repository.ts::// TODO test performance diff between multi and sort for getting all messages][src]] [2020-06-26 Fr]
+** TODO add expiration to everything stored in redis
 * TODO Chat Service History
 * TODO General Improvements
 ** TODO create nx plugin to run all dependant apps in production build in pm2 and only app in development in dev mode
@@ -26,3 +28,8 @@
 * ------ unsorted -------
 * TODO [types.ts] set up to fetch room info in saga then store [[file:/home/ggz/Dev/chat/apps/client-chat/src/app/store/types.ts::// TODO set up to fetch room info in saga then store][src]] [2020-08-14 Fr]
 * TODO [saga.ts] add error handlers and data validators based on contracts [[file:/home/ggz/Dev/chat/apps/client-chat/src/app/store/saga.ts::// TODO add error handlers and data validators based on contracts][src]] [2020-08-15 Sa]
+* IDEA Set up chat history service to be a rust service which will also encrypt messages before perm storing them, decrypt them to pass them to chat service
+* IDEA Set up rust graphql server and apollo graphql server and compare
+* IDEA Set up user service in deno
+* IDEA Set up clean up crew to delete inactive users and their messages, and another to delete unassociated data
+* TODO [middleware.ts] switch to redux toolkit utils [[file:/home/ggz/Dev/chat/apps/client-chat/src/app/store/middleware.ts::// TODO switch to redux toolkit utils][src]] [2020-10-10 Sa]

@@ -1,45 +1,44 @@
-import { spawn, put, takeEvery, all } from 'redux-saga/effects'
+import { put, takeEvery, all } from 'redux-saga/effects'
 
 import { ioEmit, ioConnect, ioRegister } from '../../../store/middleware'
 import {
-  GET_USER,
-  CREATE_ROOM,
-  CHAT_CONNECT,
-  NEW_ROOM_RECEIVED,
-  SEND_MESSAGE,
-  SELECT_ROOM,
-  ConnectChatAction,
-  CreateRoomAction,
-  GetUserAction,
-  SendMessageAction,
-  SelectRoomAction,
-} from './types'
-import {
-  roomReceived,
-  userReceived,
+  connectChat,
+  getUser,
   messageReceived,
   newRoomReceived,
+  createRoom,
+  sendMessage,
 } from './actions'
+import { selectRoom, userReceived, roomReceived } from './slice'
 
 // TODO add error handlers and data validators based on contracts
 
-function* handleConnectChat(action: ConnectChatAction): Generator {
-  yield put(ioConnect(action.payload.userName))
+function* handleConnectChat(action: ReturnType<typeof connectChat>): Generator {
+  console.log('==========')
+  console.log('handleConnectChat')
+  console.log('==========')
+  yield put(ioConnect(action.payload))
   yield all([
     put(ioRegister('message', (data) => messageReceived(data))),
     put(ioRegister('new_room', (data) => newRoomReceived(data))),
   ])
 }
 
-function* handleGetUser(action: GetUserAction): Generator {
+function* handleGetUser(action: ReturnType<typeof getUser>): Generator {
+  console.log('==========')
+  console.log('handleGetUser')
+  console.log('==========')
   yield put(
     ioEmit('getUserAndRoomMeta', (res: any) => userReceived(res), {
-      userId: action.payload.userId,
+      userId: action.payload,
     }),
   )
 }
 
-function* handleGetRoom(action: SelectRoomAction): Generator {
+function* handleGetRoom(action: ReturnType<typeof selectRoom>): Generator {
+  console.log('==========')
+  console.log('handleGetRoom')
+  console.log('==========')
   yield put(
     ioEmit('getRoom', (res: any) => roomReceived(res), {
       roomId: action.payload,
@@ -47,15 +46,21 @@ function* handleGetRoom(action: SelectRoomAction): Generator {
   )
 }
 
-function* handleCreateRoom(action: CreateRoomAction): Generator {
+function* handleCreateRoom(action: ReturnType<typeof createRoom>): Generator {
+  console.log('==========')
+  console.log('handleCreateRoom')
+  console.log('==========')
   yield put(
     ioEmit('createRoom', (res: any) => roomReceived(res), {
-      members: action.payload.members,
+      members: action.payload,
     }),
   )
 }
 
-function* handleSendMessage(action: SendMessageAction): Generator {
+function* handleSendMessage(action: ReturnType<typeof sendMessage>): Generator {
+  console.log('==========')
+  console.log('handleSendMessage')
+  console.log('==========')
   yield put(
     ioEmit('sendMessage', (res: any) => messageReceived(res), {
       userId: action.payload.userId,
@@ -66,9 +71,9 @@ function* handleSendMessage(action: SendMessageAction): Generator {
 }
 
 export function* rootSaga() {
-  yield takeEvery(CHAT_CONNECT, handleConnectChat)
-  yield takeEvery(CREATE_ROOM, handleCreateRoom)
-  yield takeEvery(SEND_MESSAGE, handleSendMessage)
-  yield takeEvery(SELECT_ROOM, handleGetRoom)
-  yield takeEvery([GET_USER, NEW_ROOM_RECEIVED], handleGetUser)
+  yield takeEvery(connectChat.type, handleConnectChat)
+  yield takeEvery(createRoom.type, handleCreateRoom)
+  yield takeEvery(sendMessage.type, handleSendMessage)
+  yield takeEvery(selectRoom.type, handleGetRoom)
+  yield takeEvery([getUser.type, newRoomReceived.type], handleGetUser)
 }
