@@ -4,6 +4,11 @@ import { Route } from 'react-router-dom'
 import Chat from '../chat'
 import Login from '../login'
 
+export interface RouteChatParams {
+  receiverId?: string
+  jobId?: string
+}
+
 export const App = () => {
   const [userName, setUserName] = useState(null)
 
@@ -25,11 +30,7 @@ export const App = () => {
         <Login userName={userName} setUserName={handleSetUserName} />
       </Route>
       <Route path='/chat/:receiverId?/:jobId?'>
-        {!userName ? (
-          <div>loading...</div>
-        ) : (
-          <Chat userName={userName} setUserName={handleSetUserName} />
-        )}
+        {!userName ? <div>loading...</div> : <Chat userName={userName} />}
       </Route>
     </>
   )

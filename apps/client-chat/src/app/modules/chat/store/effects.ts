@@ -4,68 +4,83 @@ import { ioEmit, ioConnect, ioRegister } from '../../../store/middleware'
 import {
   connectChat,
   getUser,
-  messageReceived,
   newRoomReceived,
   createRoom,
   sendMessage,
 } from './actions'
-import { selectRoom, userReceived, roomReceived } from './slice'
+import {
+  selectRoom,
+  userReceived,
+  messageReceived,
+  roomReceived,
+} from './slice'
 
 // TODO add error handlers and data validators based on contracts
 
 function* handleConnectChat(action: ReturnType<typeof connectChat>): Generator {
-  console.log('==========')
-  console.log('handleConnectChat')
-  console.log('==========')
   yield put(ioConnect(action.payload))
   yield all([
-    put(ioRegister('message', (data) => messageReceived(data))),
-    put(ioRegister('new_room', (data) => newRoomReceived(data))),
+    put(
+      ioRegister({
+        eventName: 'message',
+        callbackAction: (data) => messageReceived(data),
+      }),
+    ),
+    put(
+      ioRegister({
+        eventName: 'new_room',
+        callbackAction: (data) => newRoomReceived(data),
+      }),
+    ),
   ])
 }
 
 function* handleGetUser(action: ReturnType<typeof getUser>): Generator {
-  console.log('==========')
-  console.log('handleGetUser')
-  console.log('==========')
   yield put(
-    ioEmit('getUserAndRoomMeta', (res: any) => userReceived(res), {
-      userId: action.payload,
+    ioEmit({
+      eventName: 'getUserAndRoomMeta',
+      args: {
+        userId: action.payload,
+      },
+      callbackAction: (res: any) => userReceived(res),
     }),
   )
 }
 
 function* handleGetRoom(action: ReturnType<typeof selectRoom>): Generator {
-  console.log('==========')
-  console.log('handleGetRoom')
-  console.log('==========')
   yield put(
-    ioEmit('getRoom', (res: any) => roomReceived(res), {
-      roomId: action.payload,
+    ioEmit({
+      eventName: 'getRoom',
+      args: {
+        roomId: action.payload,
+      },
+      callbackAction: (res: any) => roomReceived(res),
     }),
   )
 }
 
 function* handleCreateRoom(action: ReturnType<typeof createRoom>): Generator {
-  console.log('==========')
-  console.log('handleCreateRoom')
-  console.log('==========')
   yield put(
-    ioEmit('createRoom', (res: any) => roomReceived(res), {
-      members: action.payload,
+    ioEmit({
+      eventName: 'createRoom',
+      args: {
+        members: action.payload,
+      },
+      callbackAction: (res: any) => roomReceived(res),
     }),
   )
 }
 
 function* handleSendMessage(action: ReturnType<typeof sendMessage>): Generator {
-  console.log('==========')
-  console.log('handleSendMessage')
-  console.log('==========')
   yield put(
-    ioEmit('sendMessage', (res: any) => messageReceived(res), {
-      userId: action.payload.userId,
-      roomId: action.payload.roomId,
-      content: action.payload.content,
+    ioEmit({
+      eventName: 'sendMessage',
+      args: {
+        userId: action.payload.userId,
+        roomId: action.payload.roomId,
+        content: action.payload.content,
+      },
+      callbackAction: (res: any) => messageReceived(res),
     }),
   )
 }

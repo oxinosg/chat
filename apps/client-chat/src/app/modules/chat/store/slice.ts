@@ -18,14 +18,14 @@ const initialState: ChatState = {
 
 interface UserReceivedPayload {
   user?: User
-  rooms?: string[]
+  rooms?: Room[]
 }
 
 const chatSlice = createSlice({
   name: 'chat',
   initialState,
   reducers: {
-    newMessageReceived: (state, action: PayloadAction<Message>) =>
+    messageReceived: (state, action: PayloadAction<Message>) =>
       void state.rooms.byId[state.selectedRoom].messages.push(action.payload),
     userReceived: (state, action: PayloadAction<UserReceivedPayload>) => {
       const { user, rooms } = action.payload
@@ -36,15 +36,16 @@ const chatSlice = createSlice({
         }
       }
       if (rooms) {
-        rooms.map((roomId) => {
-          if (!state.rooms.byId[roomId]) {
-            state.rooms.byId[roomId] = null
+        rooms.map((room) => {
+          if (!state.rooms.byId[room.id]) {
+            state.rooms.byId[room.id] = room
           }
-          if (!state.rooms.allIds.includes(roomId)) {
-            state.rooms.allIds.push(roomId)
+          if (!state.rooms.allIds.includes(room.id)) {
+            state.rooms.allIds.push(room.id)
           }
         })
       }
+      state.userReceived = true
     },
     roomReceived: (state, action: PayloadAction<Room>) => {
       state.rooms.byId[action.payload.id] = {
@@ -61,7 +62,7 @@ const chatSlice = createSlice({
 })
 
 export const {
-  newMessageReceived,
+  messageReceived,
   roomReceived,
   selectRoom,
   userReceived,

@@ -19,11 +19,9 @@ export const theme = createMuiTheme({
     },
     background: {
       default: '#fff',
-      view: '#f5f9fc',
     },
     text: {
       secondary: '#B7B7B7',
-      link: '#3B86FF',
     },
   },
   props: {

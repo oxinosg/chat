@@ -1,6 +1,6 @@
 * TODO [#A] Chat Client
-** TODO [#A] switch to DDD structure
-** TODO [#A] switch to use redux toolkit
+** DONE [#A] switch to DDD structure
+** DONE [#A] switch to use redux toolkit
 ** TODO redux-persist
 ** TODO [#C] check if browser supports websockets
 ** TODO replace react-quill with draft.js

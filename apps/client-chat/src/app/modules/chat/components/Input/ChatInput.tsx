@@ -75,6 +75,17 @@ const CustomToolbar = ({
   </div>
 )
 
+interface IChatInput {
+  disabled: boolean
+  loading: boolean
+  inputEl: any
+  value: string
+  onChange: (event: any) => void
+  onSend: () => void
+  onFocus?: () => void
+  onFileChange?: () => void
+}
+
 const ChatInput = ({
   disabled,
   loading,
@@ -84,7 +95,7 @@ const ChatInput = ({
   onFileChange,
   inputEl,
   value,
-}) => {
+}: IChatInput) => {
   const classes = useStyles()
 
   return (

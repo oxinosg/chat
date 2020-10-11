@@ -17,6 +17,8 @@ import {
   connectChat as connectChatAction,
   sendMessage as sendMessageAction,
 } from './store'
+import { RouteChatParams } from '../app/App'
+
 import useStyles from './styles'
 import 'react-chat-elements/dist/main.css'
 
@@ -29,6 +31,7 @@ const initialRoomState = {
   roomSet: false,
   creatingRoom: false,
   rooms: [],
+  roomsLoading: false,
 }
 
 let creatingRoom = false
@@ -42,7 +45,7 @@ const Chat = ({ userName }: { userName: string }) => {
   const dispatch = useDispatch()
 
   const [roomsState, setRoomsState] = useState(initialRoomState)
-  const params = useParams()
+  const params = useParams<RouteChatParams>()
 
   const inputEl = useRef(null)
 
@@ -57,7 +60,7 @@ const Chat = ({ userName }: { userName: string }) => {
     dispatch(getUserAction(userName))
   }, [])
 
-  const { receiverId, jobId } = params
+  const { receiverId } = params
   const { roomsLoading, roomSet } = roomsState
 
   const createMessageLoading = false
@@ -136,7 +139,7 @@ const Chat = ({ userName }: { userName: string }) => {
     )
   }
 
-  async function selectRoom(room) {
+  function selectRoom(room) {
     if (room && room.id) {
       setRoomsState({
         ...roomsState,

@@ -11,7 +11,7 @@ type IProps = {
   classes: any
   userName: string
   selectedRoom: string
-  onClick: () => void
+  onClick: (room: any) => void
 }
 
 const ChatRoomList = ({ classes, userName, onClick, selectedRoom }: IProps) => {
