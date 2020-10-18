@@ -7,7 +7,7 @@ interface IoEmitPayload {
   args?: any
 }
 
-interface IoRegisterPauload {
+interface IoRegisterPayload {
   eventName: string
   callbackAction: any
 }
@@ -20,7 +20,7 @@ export const ioDisconnected = createAction<void, 'io/disconnected'>(
   'io/disconnected',
 )
 export const ioEmit = createAction<IoEmitPayload, 'io/emit'>('io/emit')
-export const ioRegister = createAction<IoRegisterPauload, 'io/register'>(
+export const ioRegister = createAction<IoRegisterPayload, 'io/register'>(
   'io/register',
 )
 
@@ -35,7 +35,7 @@ export function socketMiddleware(host: string) {
 
   // the middleware part of this function
   return (store: MiddlewareAPI<any, any>) => {
-    return (next: (action: any) => void) => (action: ActionTypes) => {
+    return (next: (action: ActionTypes) => void) => (action: ActionTypes) => {
       switch (action.type) {
         case ioConnect.type:
           if (socket !== null) {

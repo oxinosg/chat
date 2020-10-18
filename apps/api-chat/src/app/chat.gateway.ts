@@ -97,7 +97,7 @@ export class ChatGateway
     await Promise.all(
       connectedUsers.users.map(async ({ socketId }) => {
         if (socketId !== 'nil') {
-          socket.to(socketId).emit('new_room', res.id)
+          socket.to(socketId).emit('new_room', res)
         }
       }),
     )
