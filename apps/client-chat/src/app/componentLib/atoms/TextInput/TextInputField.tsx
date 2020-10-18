@@ -1,16 +1,15 @@
 import React from 'react'
-import InputBase, {
-  InputBaseProps
-} from '@material-ui/core/InputBase'
+import InputBase, { InputBaseProps } from '@material-ui/core/InputBase'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 
 import useStyles from './styles'
 
-interface  IProps  extends InputBaseProps {}
+interface IProps extends InputBaseProps {
+  label: string
+}
 
-export const TextInputField = (props: IProps
-) => {
+export const TextInputField = (props: IProps) => {
   const classes = useStyles()
 
   return (

@@ -1,20 +1,17 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import {
+  createSlice,
+  createEntityAdapter,
+  PayloadAction,
+} from '@reduxjs/toolkit'
 import sortBy from 'lodash.sortby'
 
-import { ChatState, Message, Room, User } from './types'
+import { Message, Room, User } from './types'
 
-const initialState: ChatState = {
-  users: {
-    allIds: [],
-    byId: {},
-  },
-  rooms: {
-    allIds: [],
-    byId: {},
-  },
-  selectedRoom: null,
-  userReceived: false,
-}
+const usersAdapter = createEntityAdapter<User>()
+const roomsAdapter = createEntityAdapter<Room>()
+
+export const usersSelectors = usersAdapter.getSelectors()
+export const roomsSelectors = roomsAdapter.getSelectors()
 
 interface UserReceivedPayload {
   user?: User
@@ -23,38 +20,32 @@ interface UserReceivedPayload {
 
 const chatSlice = createSlice({
   name: 'chat',
-  initialState,
+  initialState: {
+    users: usersAdapter.getInitialState(),
+    rooms: roomsAdapter.getInitialState(),
+    selectedRoom: null,
+    userReceived: false,
+  },
   reducers: {
     messageReceived: (state, action: PayloadAction<Message>) =>
-      void state.rooms.byId[state.selectedRoom].messages.push(action.payload),
+      void roomsSelectors
+        .selectById(state.rooms, state.selectedRoom)
+        .messages.push(action.payload),
     userReceived: (state, action: PayloadAction<UserReceivedPayload>) => {
       const { user, rooms } = action.payload
       if (user) {
-        state.users.byId[user.id] = user
-        if (!state.users.allIds.includes(user.id)) {
-          state.users.allIds.push(user.id)
-        }
+        usersAdapter.upsertOne(state.users, user)
       }
       if (rooms) {
-        rooms.map((room) => {
-          if (!state.rooms.byId[room.id]) {
-            state.rooms.byId[room.id] = room
-          }
-          if (!state.rooms.allIds.includes(room.id)) {
-            state.rooms.allIds.push(room.id)
-          }
-        })
+        roomsAdapter.upsertMany(state.rooms, rooms)
       }
       state.userReceived = true
     },
     roomReceived: (state, action: PayloadAction<Room>) => {
-      state.rooms.byId[action.payload.id] = {
+      roomsAdapter.upsertOne(state.rooms, {
         ...action.payload,
         messages: sortBy(action.payload.messages, 'time'),
-      }
-      if (!state.rooms.allIds.includes(action.payload.id)) {
-        state.rooms.allIds.push(action.payload.id)
-      }
+      })
     },
     selectRoom: (state, action: PayloadAction<string>) =>
       void (state.selectedRoom = action.payload),

@@ -18,6 +18,10 @@ import {
 // TODO add error handlers and data validators based on contracts
 
 function* handleConnectChat(action: ReturnType<typeof connectChat>): Generator {
+  console.log('=========>')
+  console.log('connect chat')
+  console.log('<=========')
+  console.log(action)
   yield put(ioConnect(action.payload))
   yield all([
     put(
@@ -36,6 +40,9 @@ function* handleConnectChat(action: ReturnType<typeof connectChat>): Generator {
 }
 
 function* handleGetUser(action: ReturnType<typeof getUser>): Generator {
+  console.log('=========>')
+  console.log('get user')
+  console.log('<=========')
   yield put(
     ioEmit({
       eventName: 'getUserAndRoomMeta',
@@ -48,6 +55,9 @@ function* handleGetUser(action: ReturnType<typeof getUser>): Generator {
 }
 
 function* handleGetRoom(action: ReturnType<typeof selectRoom>): Generator {
+  console.log('=========>')
+  console.log('get room')
+  console.log('<=========')
   yield put(
     ioEmit({
       eventName: 'getRoom',
@@ -60,6 +70,9 @@ function* handleGetRoom(action: ReturnType<typeof selectRoom>): Generator {
 }
 
 function* handleCreateRoom(action: ReturnType<typeof createRoom>): Generator {
+  console.log('=========>')
+  console.log('create room')
+  console.log('<=========')
   yield put(
     ioEmit({
       eventName: 'createRoom',
@@ -72,6 +85,9 @@ function* handleCreateRoom(action: ReturnType<typeof createRoom>): Generator {
 }
 
 function* handleSendMessage(action: ReturnType<typeof sendMessage>): Generator {
+  console.log('=========>')
+  console.log('send message')
+  console.log('<=========')
   yield put(
     ioEmit({
       eventName: 'sendMessage',
@@ -89,6 +105,6 @@ export function* rootSaga() {
   yield takeEvery(connectChat.type, handleConnectChat)
   yield takeEvery(createRoom.type, handleCreateRoom)
   yield takeEvery(sendMessage.type, handleSendMessage)
-  yield takeEvery(selectRoom.type, handleGetRoom)
-  yield takeEvery([getUser.type, newRoomReceived.type], handleGetUser)
+  yield takeEvery([selectRoom.type, newRoomReceived.type], handleGetRoom)
+  yield takeEvery(getUser.type, handleGetUser)
 }

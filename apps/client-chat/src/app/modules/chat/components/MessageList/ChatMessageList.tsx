@@ -3,24 +3,23 @@ import { format, isSameDay, parseISO } from 'date-fns'
 import parse from 'html-react-parser'
 import { useSelector } from 'react-redux'
 
-import Button from '@material-ui/core/Button'
 import { MessageList } from 'react-chat-elements'
 
 import { RootState } from '../../../../../main'
-import useStyles from './styles'
+import { roomsSelectors } from '../../store'
 
 const ChatMessageList = ({ userName, selectedRoom }) => {
-  const { rooms, users } = useSelector((state: RootState) => state.chat)
-  const classes = useStyles()
+  const { rooms: roomsEntityState } = useSelector(
+    (state: RootState) => state.chat,
+  )
+  const roomEntities = roomsSelectors.selectEntities(roomsEntityState)
 
-  function getDateString(date) {
+  function getDateString(date: string) {
     return format(parseISO(date), 'HH:mm')
   }
 
-  const messages = rooms.byId[selectedRoom]?.messages
+  const messages = roomEntities[selectedRoom]?.messages
   const messageList = []
-
-  console.log(messages)
 
   messages &&
     messages.map((message, i) => {
@@ -36,6 +35,7 @@ const ChatMessageList = ({ userName, selectedRoom }) => {
         })
       }
 
+      // TODO add read status later `message.read`
       messageList.push({
         id: message.id,
         text: parse(message.content),
@@ -44,7 +44,7 @@ const ChatMessageList = ({ userName, selectedRoom }) => {
         status:
           i !== 0 || message.sender !== userName
             ? ''
-            : message.read
+            : '' // message.read
             ? 'read'
             : '',
         notch: false,

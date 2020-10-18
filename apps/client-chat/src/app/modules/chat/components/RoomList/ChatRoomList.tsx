@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 
 import { ChatList } from 'react-chat-elements'
 
+import { Message, roomsSelectors } from '../../store'
 import { RootState } from '../../../../../main'
 import identicon from 'identicon.js'
 
@@ -15,7 +16,11 @@ type IProps = {
 }
 
 const ChatRoomList = ({ classes, userName, onClick, selectedRoom }: IProps) => {
-  const { rooms, users } = useSelector((state: RootState) => state.chat)
+  const { rooms: roomsEntityState, users } = useSelector(
+    (state: RootState) => state.chat,
+  )
+  const roomEntities = roomsSelectors.selectEntities(roomsEntityState)
+  const roomIds = roomsSelectors.selectIds(roomsEntityState)
 
   function photo() {
     return new identicon('c157a79031e1c40f85931829bc5fc552').toString()
@@ -30,20 +35,16 @@ const ChatRoomList = ({ classes, userName, onClick, selectedRoom }: IProps) => {
   }
 
   let chatList = []
-  if (userName && rooms.allIds.length > 0) {
-    chatList = rooms.allIds.map((roomId) => {
-      const room = rooms.byId[roomId] || {}
-      const messages = rooms.byId[roomId]?.messages
+  if (userName && roomIds.length > 0) {
+    chatList = roomIds.map((roomId) => {
+      const { messages, ...room } = roomEntities[roomId]
       const lastMessage =
-        messages && messages.length > 0 && messages[0] === room.id
+        Array.isArray(messages) && messages.length > 0
           ? messages[0]
-          : room.messages &&
-            Array.isArray(room.messages) &&
-            room.messages.length > 0
-          ? room.messages[0]
-          : {}
+          : ({} as Message)
 
-      const unread = !lastMessage.read && lastMessage.receiver === userName
+      // const unread = !lastMessage.read && lastMessage.sender === userName
+      const unread = lastMessage.sender === userName
 
       let className = ''
       if (room) {
@@ -70,10 +71,12 @@ const ChatRoomList = ({ classes, userName, onClick, selectedRoom }: IProps) => {
         avatarFlexible: true,
 
         lastMessageId: lastMessage ? lastMessage.id : '',
-        messageReceiver: lastMessage.receiver,
+        messageReceiver: lastMessage.sender,
       }
     })
   }
+
+  console.log(chatList)
 
   return <ChatList onClick={onClick} dataSource={chatList} />
 }

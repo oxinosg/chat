@@ -16,6 +16,8 @@ import {
   createRoom as createRoomAction,
   connectChat as connectChatAction,
   sendMessage as sendMessageAction,
+  roomsSelectors,
+  Room,
 } from './store'
 import { RouteChatParams } from '../app/App'
 
@@ -39,9 +41,12 @@ let creatingRoom = false
 const Chat = ({ userName }: { userName: string }) => {
   const classes = useStyles()
 
-  const { rooms, userReceived, selectedRoom } = useSelector(
+  const { rooms: roomsEntityState, userReceived, selectedRoom } = useSelector(
     (state: RootState) => state.chat,
   )
+  const roomEntities = roomsSelectors.selectEntities(roomsEntityState)
+  const roomIds = roomsSelectors.selectIds(roomsEntityState)
+
   const dispatch = useDispatch()
 
   const [roomsState, setRoomsState] = useState(initialRoomState)
@@ -66,7 +71,7 @@ const Chat = ({ userName }: { userName: string }) => {
   const createMessageLoading = false
 
   useEffect(() => {
-    async function createRoom(receiverId) {
+    async function createRoom(receiverId: RouteChatParams['receiverId']) {
       if (!creatingRoom) {
         creatingRoom = true
 
@@ -79,23 +84,26 @@ const Chat = ({ userName }: { userName: string }) => {
       }
     }
 
+    console.log(userReceived)
+    // if (!roomSet && roomsLoading === false && receiverId) {
     if (!roomSet && roomsLoading === false && userReceived && receiverId) {
-      let room
-      if (Array.isArray(rooms.allIds) && rooms.allIds.length > 0) {
+      let room: Room | undefined
+      if (roomIds.length > 0) {
         if (receiverId) {
-          const tempRoom = rooms.allIds.find(
+          const roomIdToSelect = roomIds.find(
             (id) =>
-              rooms.byId[id] &&
-              Array.isArray(rooms.byId[id].members) &&
-              rooms.byId[id].members.includes(receiverId),
+              roomEntities[id] &&
+              Array.isArray(roomEntities[id].members) &&
+              roomEntities[id].members.includes(receiverId),
           )
-          if (tempRoom) {
-            room = tempRoom
+          if (roomIdToSelect) {
+            room = roomEntities[roomIdToSelect]
           }
         }
 
         if (receiverId) {
           if (!room && !roomsState.creatingRoom) {
+            console.log('create room!')
             createRoom(receiverId)
           } else {
             setRoomsState((prev) => ({
@@ -107,20 +115,21 @@ const Chat = ({ userName }: { userName: string }) => {
         }
       } else {
         if (!roomsState.creatingRoom) {
+          console.log('create room2!')
           createRoom(receiverId)
         }
       }
     }
-  }, [roomSet, roomsLoading, receiverId])
+  }, [roomSet, roomsLoading, receiverId, userReceived])
 
-  let room
-  if (rooms.allIds.length > 0) {
-    if (selectedRoom) {
-      room = rooms.byId[selectedRoom]
-    }
-  }
+  // let room: Room | undefined
+  // if (roomIds.length > 0) {
+  //   if (selectedRoom) {
+  //     room = roomEntities[selectedRoom]
+  //   }
+  // }
 
-  const messages = rooms.byId[selectedRoom]?.messages
+  const messages = roomEntities[selectedRoom]?.messages
 
   useEffect(() => {
     const els = document.getElementsByClassName('rce-mlist')
@@ -139,15 +148,13 @@ const Chat = ({ userName }: { userName: string }) => {
     )
   }
 
-  function selectRoom(room) {
-    if (room && room.id) {
-      setRoomsState({
-        ...roomsState,
-        selectedRoom: room.id,
-      })
+  function selectRoom(room: Room) {
+    setRoomsState({
+      ...roomsState,
+      selectedRoom: room.id,
+    })
 
-      dispatch(selectRoomAction(room.id))
-    }
+    dispatch(selectRoomAction(room.id))
   }
 
   const sendMessage = () => {

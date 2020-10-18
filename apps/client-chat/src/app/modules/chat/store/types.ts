@@ -24,8 +24,8 @@ export interface Room {
 export interface Message {
   id: string
   sender: string
-  message: string
-  timestamp: number
+  content: string
+  time: string
   file?: string
 }
 

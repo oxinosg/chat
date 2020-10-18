@@ -41,7 +41,7 @@
           "options": {
             "commands": [
               {
-                "command": "pm2 stop service-chat; pm2 start dist/apps/service-chat/main.js --watch --name service-chat"
+                "command": "pm2 stop service-chat; pm2 start dist/apps/service-chat/main.js --name service-chat"
               }
             ]
           }
@@ -175,7 +175,7 @@
             "options": {
               "commands": [
                 {
-                  "command": "pm2 stop api-chat; pm2 start dist/apps/api-chat/main.js --watch --name api-chat"
+                  "command": "pm2 stop api-chat; pm2 start dist/apps/api-chat/main.js --name api-chat"
                 }
             ]
           }

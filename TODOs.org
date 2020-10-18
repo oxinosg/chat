@@ -33,3 +33,5 @@
 * IDEA Set up user service in deno
 * IDEA Set up clean up crew to delete inactive users and their messages, and another to delete unassociated data
 * TODO [middleware.ts] switch to redux toolkit utils [[file:/home/ggz/Dev/chat/apps/client-chat/src/app/store/middleware.ts::// TODO switch to redux toolkit utils][src]] [2020-10-10 Sa]
+* TODO add a 2nd api with graphql/rust server and create 2nd client that will use component lib and d3 to show user/messages charts statistic. delegate d3 data transformation to wasm
+* TODO [ChatMessageList.tsx] :add read status later `message.read` [[file:/home/ggz/Dev/chat/apps/client-chat/src/app/modules/chat/components/MessageList/ChatMessageList.tsx::: // TODO add read status later `message.read`][src]] [2020-10-17 Sa]
