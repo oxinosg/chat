@@ -231,7 +231,6 @@ const useStyles = makeStyles(({ breakpoints, spacing }) => ({
   },
   button: {
     float: 'left',
-    height: '100%',
     padding: 0,
     minWidth: 18,
     height: 22,

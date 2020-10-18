@@ -1,16 +1,14 @@
 * TODO [#A] Chat Client
+** TODO [#C] check if browser supports websockets
+** TODO [middleware.ts] create interfaces based on contracts and used a validation lib here to verify data [[file:/home/ggz/Dev/chat/apps/client-chat/src/app/store/middleware.ts::// TODO create interfaces based on contracts and used a validation lib here to verify data][src]] [2020-08-14 Fr]
+** TODO add a documentation lib and add detailed documentations for everything. project structs, patterns etc
+** TODO consider reselectors
+** TODO move common to nx shared components lib, and add storybook
+** TODO redux-persist
+** TODO replace react-quill with draft.js
 ** DONE [#A] switch to DDD structure
 ** DONE [#A] switch to use redux toolkit
-** TODO redux-persist
-** TODO [#C] check if browser supports websockets
-** TODO replace react-quill with draft.js
-** TODO add a documentation lib and add detailed documentations for everything. project structs, patterns etc
-** TODO [Chat.tsx] show "cant create room" [[file:/home/ggz/Dev/chat/apps/client-chat/src/app/pages/chat/Chat.tsx::// TODO show "cant create room"][src]] [2020-06-15 Mo]
-** TODO move common to nx shared components lib, and add storybook
-** TODO [Chat.tsx] create a chat init which calls ioConnect and registers new message/room [[file:/home/ggz/Dev/chat/apps/client-chat/src/app/pages/chat/Chat.tsx::// TODO create a chat init which calls ioConnect and registers new message/room][src]] [2020-08-14 Fr]
-** TODO [Chat.tsx] move all these to create message/create room action which calls ioEmit [[file:/home/ggz/Dev/chat/apps/client-chat/src/app/pages/chat/Chat.tsx::// TODO move all these to create message/create room action which calls ioEmit][src]] [2020-08-14 Fr]
-** TODO [middleware.ts] create interfaces based on contracts and used a validation lib here to verify data [[file:/home/ggz/Dev/chat/apps/client-chat/src/app/store/middleware.ts::// TODO create interfaces based on contracts and used a validation lib here to verify data][src]] [2020-08-14 Fr]
-** TODO set up redux to localstorage backup/restore of server data (restore only if they are recent)
+** DONE [middleware.ts] switch to redux toolkit utils [[file:/home/ggz/Dev/chat/apps/client-chat/src/app/store/middleware.ts::// TODO switch to redux toolkit utils][src]] [2020-10-10 Sa]
 * TODO Chat Api
 ** TODO [chat.gateway.ts] load most common data to redis [[file:/home/ggz/Dev/chat/apps/api-chat/src/app/chat.gateway.ts::// TODO load most common data to redis][src]] [2020-06-27 Sa]
 ** TODO [chat.gateway.ts] load metadata and latest messages from each room to redis [[file:/home/ggz/Dev/chat/apps/api-chat/src/app/chat.gateway.ts::// TODO load metadata and latest messages from each room to redis][src]] [2020-06-27 Sa]
@@ -26,12 +24,10 @@
 *** TODO add instructions
 *** TODO add TODO section
 * ------ unsorted -------
-* TODO [types.ts] set up to fetch room info in saga then store [[file:/home/ggz/Dev/chat/apps/client-chat/src/app/store/types.ts::// TODO set up to fetch room info in saga then store][src]] [2020-08-14 Fr]
 * TODO [saga.ts] add error handlers and data validators based on contracts [[file:/home/ggz/Dev/chat/apps/client-chat/src/app/store/saga.ts::// TODO add error handlers and data validators based on contracts][src]] [2020-08-15 Sa]
 * IDEA Set up chat history service to be a rust service which will also encrypt messages before perm storing them, decrypt them to pass them to chat service
 * IDEA Set up rust graphql server and apollo graphql server and compare
 * IDEA Set up user service in deno
 * IDEA Set up clean up crew to delete inactive users and their messages, and another to delete unassociated data
-* TODO [middleware.ts] switch to redux toolkit utils [[file:/home/ggz/Dev/chat/apps/client-chat/src/app/store/middleware.ts::// TODO switch to redux toolkit utils][src]] [2020-10-10 Sa]
 * TODO add a 2nd api with graphql/rust server and create 2nd client that will use component lib and d3 to show user/messages charts statistic. delegate d3 data transformation to wasm
 * TODO [ChatMessageList.tsx] :add read status later `message.read` [[file:/home/ggz/Dev/chat/apps/client-chat/src/app/modules/chat/components/MessageList/ChatMessageList.tsx::: // TODO add read status later `message.read`][src]] [2020-10-17 Sa]

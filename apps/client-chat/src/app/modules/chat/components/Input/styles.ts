@@ -29,7 +29,6 @@ const useStyles = makeStyles(() => ({
   },
   button: {
     float: 'left',
-    height: '100%',
     padding: 0,
     minWidth: 18,
     height: 22,
@@ -73,7 +72,7 @@ const useStyles = makeStyles(() => ({
     },
   },
   rightIcon: {
-    float: 'right!important',
+    float: 'right!important' as 'right',
     '& svg': {
       fill: '#0FB2D9!important',
     },
